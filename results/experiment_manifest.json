@@ -1,0 +1,291 @@
+{
+  "manifest_version": 1,
+  "generated_at": "2026-11-01",
+  "project_root": "C:/Users/mcsr8/Desktop/cloud-removal-poc",
+  "verification": {
+    "script": "results/verify_checkpoints.py",
+    "input_shape": [
+      1,
+      3,
+      256,
+      256
+    ],
+    "device": "cpu",
+    "torch_load_weights_only": true,
+    "finite_output_required": true,
+    "checkpoint_count": 8,
+    "verified_count": 7,
+    "invalid_count": 1
+  },
+  "checkpoints": [
+    {
+      "path": "models/attention_controlled_best.pth",
+      "architecture": "Attention U-Net",
+      "variant": "controlled",
+      "role": "best",
+      "size_bytes": 125682635,
+      "sha256": "1f392d8923b70f453d3cc0813d429e48459bfc7b10438e0551d981fac77f4d54",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    },
+    {
+      "path": "models/attention_controlled_final.pth",
+      "architecture": "Attention U-Net",
+      "variant": "controlled",
+      "role": "final",
+      "size_bytes": 125682843,
+      "sha256": "8b6795b37f36d84d0438677eb8447d53430debbf2dc9936414bdc1c9526f0747",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    },
+    {
+      "path": "models/attention_unet.pth",
+      "architecture": "Attention U-Net",
+      "variant": "original",
+      "role": "final",
+      "size_bytes": 125680219,
+      "sha256": "c3a0288f0eca92e5d24fb3f55d67ec52d73aa0355640026189d680445415d3b8",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    },
+    {
+      "path": "models/best_attention_unet.pth",
+      "architecture": "Attention U-Net",
+      "variant": "original",
+      "role": "best",
+      "size_bytes": 125681323,
+      "sha256": "27c77dc30c295fe8f5054d0db2e67904308ed713a2b51db5c097fb17373185b9",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    },
+    {
+      "path": "models/unet.pth",
+      "architecture": "U-Net",
+      "variant": "original",
+      "role": "final",
+      "size_bytes": 30800505,
+      "sha256": "5f942b488475edfebb84947fac7956edde09c98033f899e0514b276d80020286",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    },
+    {
+      "path": "models/unet_baseline.pth",
+      "architecture": "U-Net",
+      "variant": "baseline",
+      "role": "unknown",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "verification_status": "invalid",
+      "load_status": "failed_empty_file",
+      "forward_status": "not_attempted",
+      "output_shape": null,
+      "output_finite": null,
+      "error": "Checkpoint file is empty."
+    },
+    {
+      "path": "models/unet_controlled_best.pth",
+      "architecture": "U-Net",
+      "variant": "controlled",
+      "role": "best",
+      "size_bytes": 30803417,
+      "sha256": "b36537f543a60a455c5727bc57494815fbcccfe4b5a3d52f658f60b4c0d7ed93",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    },
+    {
+      "path": "models/unet_controlled_final.pth",
+      "architecture": "U-Net",
+      "variant": "controlled",
+      "role": "final",
+      "size_bytes": 30803459,
+      "sha256": "54df65243a15b49f7fa43d5113a11d992a2ae5ad2a6710e3d280d91dcd81c395",
+      "verification_status": "verified",
+      "load_status": "passed",
+      "forward_status": "passed",
+      "output_shape": [
+        1,
+        3,
+        256,
+        256
+      ],
+      "output_finite": true
+    }
+  ],
+  "experiment_configurations": [
+    {
+      "script": "train.py",
+      "architecture": "U-Net",
+      "optimizer": "Adam",
+      "learning_rate": 0.0001,
+      "batch_size": 2,
+      "epochs": 20,
+      "loss": "L1Loss",
+      "random_seed": 42,
+      "scheduler": "None",
+      "split": "All 500 images; no explicit validation split",
+      "checkpoint_outputs": [
+        "models/unet.pth"
+      ],
+      "notes": "Deterministic algorithms enabled; DataLoader shuffle has no explicit generator."
+    },
+    {
+      "script": "train_attention.py",
+      "architecture": "Attention U-Net",
+      "optimizer": "Adam",
+      "learning_rate": 0.0001,
+      "batch_size": 2,
+      "epochs": 20,
+      "loss": "L1Loss",
+      "random_seed": 42,
+      "scheduler": "None",
+      "split": "Random 80/20 split: 400 train, 100 validation",
+      "checkpoint_outputs": [
+        "models/best_attention_unet.pth",
+        "models/attention_unet.pth"
+      ],
+      "notes": "Uses random_split with generator seed 42; does not use results/data_split.json."
+    },
+    {
+      "script": "train_attention_v2.py",
+      "architecture": "Attention U-Net",
+      "optimizer": "Adam",
+      "learning_rate": 0.0001,
+      "batch_size": 2,
+      "epochs": 20,
+      "loss": "L1Loss",
+      "random_seed": 42,
+      "scheduler": "ReduceLROnPlateau(mode=min, factor=0.5, patience=3, min_lr=1e-6)",
+      "split": "Random 80/20 split: 400 train, 100 validation",
+      "checkpoint_outputs": [
+        "models/best_attention_unet.pth",
+        "models/attention_unet.pth"
+      ],
+      "notes": "Uses random_split with generator seed 42; overwrites the same original Attention U-Net filenames if executed."
+    },
+    {
+      "script": "train_unet_controlled.py",
+      "architecture": "U-Net",
+      "optimizer": "Adam",
+      "learning_rate": 0.0001,
+      "batch_size": 2,
+      "epochs": 20,
+      "loss": "L1Loss",
+      "random_seed": 42,
+      "scheduler": "ReduceLROnPlateau(mode=min, factor=0.5, patience=3, min_lr=1e-6)",
+      "split": "results/data_split.json: 350 train, 75 validation, 75 test",
+      "checkpoint_outputs": [
+        "models/unet_controlled_best.pth",
+        "models/unet_controlled_final.pth"
+      ],
+      "history_output": "outputs/unet_controlled_history.json"
+    },
+    {
+      "script": "train_attention_controlled.py",
+      "architecture": "Attention U-Net",
+      "optimizer": "Adam",
+      "learning_rate": 0.0001,
+      "batch_size": 2,
+      "epochs": 20,
+      "loss": "L1Loss",
+      "random_seed": 42,
+      "scheduler": "ReduceLROnPlateau(mode=min, factor=0.5, patience=3, min_lr=1e-6)",
+      "split": "results/data_split.json: 350 train, 75 validation, 75 test",
+      "checkpoint_outputs": [
+        "models/attention_controlled_best.pth",
+        "models/attention_controlled_final.pth"
+      ],
+      "history_output": "outputs/attention_controlled_history.json"
+    }
+  ],
+  "training_history_evidence": [
+    {
+      "history": "outputs/unet_controlled_history.json",
+      "architecture": "U-Net",
+      "best_checkpoint": "models/unet_controlled_best.pth",
+      "best_epoch": 19,
+      "best_validation_loss": 0.04178169004521055,
+      "training_images": 350,
+      "validation_images": 75,
+      "test_images": 75
+    },
+    {
+      "history": "outputs/attention_controlled_history.json",
+      "architecture": "Attention U-Net",
+      "best_checkpoint": "models/attention_controlled_best.pth",
+      "best_epoch": 18,
+      "best_validation_loss": 0.08260762877762318,
+      "training_images": 350,
+      "validation_images": 75,
+      "test_images": 75
+    }
+  ],
+  "recommendations": {
+    "unet": {
+      "checkpoint": "models/unet_controlled_best.pth",
+      "basis": "Only available controlled-history evidence identifies this checkpoint as the minimum-validation-loss U-Net artifact.",
+      "confidence": "provisional",
+      "caveat": "No held-out test evaluation has been run."
+    },
+    "attention_unet": {
+      "checkpoint": "models/attention_controlled_best.pth",
+      "basis": "Only available controlled-history evidence identifies this checkpoint as the minimum-validation-loss Attention U-Net artifact.",
+      "confidence": "provisional",
+      "caveat": "No held-out test evaluation has been run."
+    }
+  },
+  "missing_information": [
+    "No aggregate 75-image held-out evaluation.",
+    "No per-checkpoint test metrics or confidence intervals.",
+    "No complete lineage mapping older original checkpoints to a specific history file.",
+    "No Python dependency manifest.",
+    "No reliable provenance for the empty unet_baseline.pth file."
+  ]
+}

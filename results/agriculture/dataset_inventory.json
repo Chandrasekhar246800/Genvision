@@ -1,0 +1,180 @@
+{
+  "inspection_date": "2026-11-01",
+  "scope": "Read-only local dataset and project asset audit",
+  "project_root": "C:\\Users\\mcsr8\\Desktop\\cloud-removal-poc",
+  "existing_artifacts_modified": false,
+  "frontend_modified": false,
+  "downloaded_or_generated_spectral_data": false,
+  "dataset": {
+    "cloudy_directory": {
+      "path": "dataset/cloudy",
+      "file_count": 500,
+      "formats": {
+        "PNG": 500
+      },
+      "dimensions": {
+        "512x512": 500
+      },
+      "modes": {
+        "RGB": 500
+      },
+      "bands": [
+        "R",
+        "G",
+        "B"
+      ]
+    },
+    "clean_directory": {
+      "path": "dataset/clean",
+      "file_count": 500,
+      "formats": {
+        "PNG": 500
+      },
+      "dimensions": {
+        "512x512": 500
+      },
+      "modes": {
+        "RGB": 500
+      },
+      "bands": [
+        "R",
+        "G",
+        "B"
+      ]
+    },
+    "paired_image_count": 500,
+    "total_image_file_count": 1000,
+    "pairing_basis": "Matching filenames validated by dataset.py",
+    "split": {
+      "source": "results/data_split.json",
+      "total_images": 500,
+      "train": 350,
+      "validation": 75,
+      "test": 75,
+      "seed": 42
+    },
+    "preprocessing": {
+      "source": "dataset.py",
+      "conversion": "RGB",
+      "resize": [
+        256,
+        256
+      ],
+      "tensor_range": "[0, 1]",
+      "transform": [
+        "Resize(256, 256)",
+        "ToTensor"
+      ]
+    }
+  },
+  "repository_image_scan": {
+    "scope": "All readable image-like files outside frontend dependencies, build output, and virtual environments",
+    "file_count": 1042,
+    "formats": {
+      "PNG": 1040,
+      "unreadable_png_or_legacy_result": 2
+    },
+    "modes": {
+      "RGB": 1030,
+      "RGBA": 10,
+      "unreadable": 2
+    },
+    "multispectral_raster_formats_found": [],
+    "non_dataset_metadata": [
+      "Some generated plots contain ordinary PNG Software and dpi metadata.",
+      "No wavelength, band, sensor, reflectance, CRS, or geotransform metadata was found."
+    ],
+    "unreadable_files": [
+      "results/baseline_prediction.png",
+      "results/loss_curve.png"
+    ]
+  },
+  "spectral_bands": {
+    "red": {
+      "present_as_rgb_channel": true,
+      "calibrated_sensor_band_confirmed": false
+    },
+    "green": {
+      "present_as_rgb_channel": true,
+      "calibrated_sensor_band_confirmed": false
+    },
+    "blue": {
+      "present_as_rgb_channel": true,
+      "calibrated_sensor_band_confirmed": false
+    },
+    "nir": {
+      "present": false,
+      "metadata_present": false
+    },
+    "swir": {
+      "present": false,
+      "metadata_present": false
+    },
+    "multispectral_metadata": false,
+    "reflectance_calibration": false,
+    "geospatial_metadata": false
+  },
+  "index_suitability": {
+    "ndvi": {
+      "status": "not_possible",
+      "reason": "Requires NIR and red reflectance; local files have RGB only and no calibration metadata.",
+      "formula": "(NIR - Red) / (NIR + Red)"
+    },
+    "ndwi": {
+      "status": "not_possible",
+      "reason": "Established McFeeters and Gao variants require NIR, and the Gao variant also requires SWIR; local files have neither.",
+      "rgb_proxy_implemented": false
+    }
+  },
+  "model_compatibility": {
+    "model_definition": "unet.py",
+    "checkpoint": "models/unet_controlled_best.pth",
+    "input_shape_verified_by_project": [
+      1,
+      3,
+      256,
+      256
+    ],
+    "first_convolution_weight_shape": [
+      64,
+      3,
+      3,
+      3
+    ],
+    "final_convolution_weight_shape": [
+      3,
+      64,
+      1,
+      1
+    ],
+    "multispectral_input_supported_without_architecture_change": false,
+    "reason": "The model and checkpoint are fixed to three input and three output channels."
+  },
+  "recommended_future_datasets": [
+    {
+      "name": "Sentinel-2 MSI Level-2A",
+      "use_case": "Primary agriculture and NDVI/NDWI candidate",
+      "spectral_capability": "13 multispectral bands including visible, red-edge, NIR, and SWIR",
+      "official_reference": "https://sentiwiki.copernicus.eu/web/s2-mission"
+    },
+    {
+      "name": "Landsat 8/9 Collection 2 Level-2",
+      "use_case": "Historical agricultural time series",
+      "spectral_capability": "Visible, NIR, SWIR, and quality-mask products",
+      "official_reference": "https://www.usgs.gov/landsat-missions"
+    },
+    {
+      "name": "USDA NAIP four-band imagery",
+      "use_case": "High-resolution agricultural mapping where four-band coverage is available",
+      "spectral_capability": "RGB plus NIR for applicable products",
+      "official_reference": "https://naip-usdaonline.hub.arcgis.com/pages/naip"
+    }
+  ],
+  "recommended_next_steps": [
+    "Select an official multispectral source and preserve band metadata.",
+    "Validate scale factors, QA masks, alignment, nodata, CRS, and geotransforms.",
+    "Create a separate multispectral split and do not mix it with the RGB split.",
+    "Design and train a new multispectral-compatible model/checkpoint.",
+    "Validate NDVI and NDWI against their intended band formulas before application integration."
+  ]
+}

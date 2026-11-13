@@ -1,0 +1,27 @@
+Model: U-Net
+Dataset: RICE
+Epochs: 20
+Loss: L1Loss
+
+PSNR: 21.55
+SSIM: 0.8228
+
+Baseline (U-Net)
+PSNR : 21.55
+SSIM : 0.8228
+
+Attention U-Net
+PSNR : 23.15
+SSIM : 0.8731
+
+| Metric | Phase 1 (U-Net) | Phase 2 (Attention U-Net) |
+| ------ | --------------: | ------------------------: |
+| PSNR   |       **21.55** |                 **23.15** |
+| SSIM   |      **0.8228** |                **0.8731** |
+
+
+Improvement
+PSNR: +1.60 dB
+SSIM: +0.0503
+
+These results show that the Attention U-Net reconstructed images that were closer to the ground truth than the baseline U-Net under the same training conditions.

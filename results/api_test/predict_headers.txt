@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+date: Sat, 31 Oct 2026 22:50:48 GMT
+server: uvicorn
+x-genvision-model: U-Net
+x-inference-time-ms: 148.79
+x-output-type: genuine-pytorch-inference
+content-length: 98758
+content-type: image/png
+vary: Origin
+

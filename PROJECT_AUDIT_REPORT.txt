@@ -1,0 +1,632 @@
+GENVISION PROJECT TECHNICAL AUDIT REPORT
+========================================
+
+Audit date: 2026-11-01
+Project root: C:\Users\mcsr8\Desktop\cloud-removal-poc
+Audit scope: Read-only technical, route, interaction, UI, ML, dataset, security,
+             performance, and validation audit.
+
+EXECUTIVE SUMMARY
+-----------------
+GenVision is a functioning Next.js research-prototype frontend paired with a
+local PyTorch research workspace. The frontend is buildable and all expected
+application routes rendered successfully through the running development
+server. The Cloud Removal Studio is intentionally a browser-only demonstration:
+upload, preview, progress, comparison, and download controls work locally, but
+the reconstruction result is not produced by PyTorch and no backend inference
+service is connected.
+
+The local ML workspace contains U-Net and Attention U-Net definitions, paired
+RGB data, split metadata, training scripts, evaluation scripts, and several
+large checkpoints. The dataset integrity and split checks passed. Three model
+checkpoint load/forward checks passed; models/unet_baseline.pth is an empty
+0-byte file and cannot be loaded. The evaluation scripts are one-image,
+file-path-driven utilities rather than a complete held-out test evaluation
+pipeline.
+
+No high-confidence exploitable security vulnerability was identified in the
+reviewed project. Production dependency audit reported zero vulnerabilities.
+The most important project limitation is the missing frontend-to-backend
+integration, followed by incomplete aggregate evaluation and the empty
+baseline checkpoint.
+
+PROJECT OVERVIEW
+----------------
+Research objective:
+  Cloud removal in satellite imagery using deep learning.
+
+Observed implementation:
+  - Frontend: Next.js App Router, React, TypeScript, Recharts, Lucide React,
+    Framer Motion, Tailwind CSS v4 packages.
+  - ML: PyTorch U-Net and Attention U-Net implementations.
+  - Dataset: 500 paired cloudy/clean RGB PNG scenes, 512 x 512 on disk.
+  - Preprocessing: RGB conversion, resize to 256 x 256, ToTensor range [0, 1].
+  - Splits: 350 train, 75 validation, 75 test, seed 42.
+  - Backend/API: No backend application or implemented HTTP inference endpoint
+    was found. frontend/src/lib/api.ts contains explicit demo stubs.
+  - Deployment: Frontend can be built as a static/prerendered Next.js
+    application; production inference deployment is not demonstrated.
+
+TECHNOLOGY STACK
+----------------
+Frontend:
+  - Next.js 16.4.3
+  - React 19.3.0 and React DOM 19.3.0
+  - TypeScript 5
+  - Tailwind CSS 4
+  - Recharts 3.10.1
+  - Framer Motion 14.9.0
+  - Lucide React 1.66.0
+  - ESLint 9 with eslint-config-next
+
+ML/Python:
+  - Python 3.11.9 virtual environment
+  - PyTorch and torchvision
+  - Pillow
+  - NumPy
+  - scikit-image
+  - matplotlib
+
+ROOT STRUCTURE SUMMARY
+----------------------
+Top-level directories:
+  dataset/       Paired cloudy and clean image data.
+  frontend/      Next.js application.
+  models/        PyTorch checkpoints.
+  outputs/       Training history and generated output artifacts.
+  results/       Dataset split metadata.
+  venv/, .venv/  Python environments.
+
+Important root files:
+  attention_unet.py
+  unet.py
+  dataset.py
+  train.py
+  train_attention.py
+  train_attention_controlled.py
+  train_attention_v2.py
+  train_unet_controlled.py
+  predict.py
+  predict_attention.py
+  evaluate.py
+  evaluate_attention.py
+  check_checkpoints.py
+  create_data_split.py
+  verify_data_split.py
+  test_dataset.py
+  test_dataset_integrity.py
+  test_attention_unet.py
+  test_unet.py
+  results/data_split.json
+
+Frontend source:
+  frontend/src/app/page.tsx
+  frontend/src/app/dashboard/page.tsx
+  frontend/src/app/studio/page.tsx
+  frontend/src/app/analytics/page.tsx
+  frontend/src/app/agriculture/page.tsx
+  frontend/src/app/models/page.tsx
+  frontend/src/app/settings/page.tsx
+  frontend/src/app/layout.tsx
+  frontend/src/app/globals.css
+  frontend/src/components/app-shell.tsx
+  frontend/src/lib/api.ts
+  frontend/src/lib/mock-data.ts
+  frontend/src/types/index.ts
+
+Structure observations:
+  - The frontend is isolated in its own package and has package-lock.json.
+  - The root has no Python dependency manifest such as requirements.txt or
+    pyproject.toml; environment reproduction therefore depends on the local
+    virtual environment or undocumented installation steps.
+  - frontend/README.md remains the generic create-next-app README and does not
+    document GenVision routes, demo limitations, or ML setup.
+  - frontend/src/lib/api.ts is not imported by the application routes found
+    during the audit. It is a useful placeholder but currently dead integration
+    code.
+  - There are multiple training variants and similarly named checkpoints.
+    Their intended lineage is not documented in a single experiment manifest.
+
+ROUTE AUDIT
+-----------
+The running frontend was tested at http://localhost:3000. HTTP responses and
+rendered DOM were checked. Route content was not assumed from source files.
+
+Route              HTTP result  Render result                         Overflow
+-----------------  -----------  ------------------------------------  ---------
+/                  200          PASS; landing h1 rendered             No
+/dashboard         200          PASS; Overview rendered                No
+/studio            200          PASS; Studio rendered                  No
+/analytics         200          PASS; Analytics rendered               No
+/agriculture       200          PASS; Agriculture rendered             No
+/models            200          PASS; Model Library rendered            No
+/settings          200          PASS; Settings rendered                No
+/_not-found        404          PASS; framework not-found response     No
+/missing-route     404          PASS; framework not-found response     No
+
+The page title was present on all application routes. The application title is
+the shared "GenVision — See beyond the clouds"; route-specific SEO metadata was
+not found.
+
+BUTTON AND INTERACTION INVENTORY
+--------------------------------
+Landing page (/):
+  - Logo: internal link to /; rendered and route target verified.
+  - Technology, Capabilities, Research: same-page anchor links.
+  - Launch Studio, Explore GenVision Studio, Open GenVision Studio: links to
+    /studio; rendered targets verified.
+  - Explore Models: link to /models; rendered target verified.
+  - Mobile menu: stateful open/close control; rendered with aria-expanded.
+  - Hero comparison divider: pointer and keyboard slider; implementation found.
+
+Shared sidebar/header:
+  - Logo: link to /.
+  - Overview, Cloud Removal Studio, Analytics, Agriculture, Model Library,
+    Settings: internal links with active route state.
+  - Mobile menu and close/backdrop controls: stateful controls with labels.
+  - Desktop collapse/expand: stateful control with a dynamic aria-label.
+  - Workspace selector and profile area: visual information only; no action
+    handler and should be treated as nonfunctional display, not a feature.
+
+Dashboard (/dashboard):
+  - Open Studio: link to /studio.
+  - View Analytics: link to /analytics.
+  - Explore Models: link to /models.
+  - Open studio in recent activity: link to /studio.
+  - Chart tooltip: Recharts interaction; chart is demonstration activity.
+  - "Last 7 days" control: visual selector without a handler; NONFUNCTIONAL
+    as a filter. This is a P2 issue because it looks interactive.
+  - Model distribution donut and recent rows: display-only demo content.
+
+Cloud Removal Studio (/studio):
+  - Browse/file picker: functional file input.
+  - Drag-and-drop: functional drop handlers.
+  - PNG/JPG/JPEG/TIFF extension and MIME validation: implemented.
+  - Maximum size: 12 MB validation implemented.
+  - Browser image decode validation: implemented; TIFF depends on browser.
+  - Image preview, filename, dimensions, file size, and type: implemented.
+  - Remove image/New reconstruction: functional reset.
+  - Model cards: U-Net and Attention U-Net selection state implemented.
+  - Start reconstruction: functional browser timer only; no ML inference.
+  - Progress/status stages: rendered as simulated processing.
+  - Zoom out, zoom in, fit image, fullscreen: implemented with disabled bounds.
+  - Comparison slider: pointer, click, and keyboard adjustment implemented.
+  - Download demo output: creates a download of the original preview under a
+    demo filename; it is not a reconstructed output.
+  - Reset clears interval and object URL state.
+
+Analytics (/analytics):
+  - Demonstration activity chart and tooltip: rendered.
+  - Training logs button: intentionally disabled and labelled awaiting logs.
+  - Evaluation filters, refresh, export, and tabs: NOT IMPLEMENTED; no hidden
+    controls were found.
+  - KPI values are explicitly unavailable or demonstration-only.
+
+Agriculture (/agriculture):
+  - Satellite image viewer, image selection, zoom, and fullscreen: rendered.
+  - Research panels and legends: display-only conceptual content.
+  - NDVI/NDWI controls and measured analysis: NOT IMPLEMENTED.
+  - Crop-health controls and measured values: NOT IMPLEMENTED.
+
+Model Library (/models):
+  - Architecture cards and comparison table: display-only.
+  - Model selection, details, checkpoint actions, and downloads: NOT
+    IMPLEMENTED. The "Backend integration pending" row is informational.
+
+Settings (/settings):
+  - Appearance, workspace, notification, and profile areas: display-only.
+  - Unsupported options are labelled unavailable/soon rather than pretending
+    to work.
+  - Save/reset/profile controls: NOT IMPLEMENTED; no misleading active buttons
+    were found.
+
+NAVIGATION AND ROUTING AUDIT
+----------------------------
+PASS:
+  - All sidebar links target the intended existing route.
+  - Landing CTAs tested by DOM inspection and target the expected routes.
+  - Logo links target /.
+  - Mobile navigation state includes close-on-navigation behavior.
+  - Missing routes return the expected Next.js 404 page.
+  - No accidental external redirects were found in application navigation.
+
+LIMITATIONS:
+  - Breadcrumbs are rendered as text in AppShell; they are not links.
+  - Dashboard "Last 7 days" is a selector-shaped display with no behavior.
+  - Workspace selector and profile controls have no navigation or settings
+    behavior.
+
+UI/UX AND RESPONSIVENESS AUDIT
+------------------------------
+Viewport checks were executed through the running browser for 1440 x 900,
+1280 x 800, 768 x 1024, and 375 x 812. The document body did not report
+horizontal overflow on the tested routes at these sizes.
+
+Strengths:
+  - Consistent dark research-oriented visual system.
+  - Responsive sidebar/drawer behavior is present.
+  - Studio and Agriculture layouts adapt without measured horizontal overflow.
+  - Analytics chart container is constrained and responsive.
+  - Empty and unavailable states generally identify missing backend data.
+  - Scientific metrics are not presented as measured when unavailable.
+
+Issues:
+  - Several controls are styled as selectors or actions but are display-only:
+    dashboard "Last 7 days", workspace selector, profile control, and model
+    library action affordances. Severity P2.
+  - Agriculture and Studio use raw img elements in places where Next Image
+    optimization could improve performance. Severity P3.
+  - Some pages are information-dense on mobile and should receive a manual
+    screen-reader and touch-target review. Automated overflow checks do not
+    prove full accessibility. Severity P3.
+  - The landing page emits a Framer Motion reduced-motion warning in the
+    browser when reduced motion is enabled. It is nonfatal. Severity P3.
+
+FRONTEND TECHNICAL AUDIT
+------------------------
+Build and type safety:
+  - npm run build: PASS.
+  - Next.js compilation: PASS.
+  - TypeScript phase: PASS.
+  - Static generation: PASS for 11 generated routes.
+  - npm run lint: PASS with 0 errors and 7 warnings.
+
+Lint warnings:
+  - agriculture/page.tsx: three @next/next/no-img-element warnings.
+  - studio/page.tsx: two @next/next/no-img-element warnings.
+  - analytics/page.tsx: imported Legend is unused.
+
+State and cleanup:
+  - Studio uses URL.createObjectURL and revokes URLs during replacement,
+    reset, decode failure, and unmount cleanup.
+  - Studio processing uses setInterval and clears it on completion, reset, and
+    unmount.
+  - Studio file input is reset when starting a new reconstruction.
+  - No obvious timer or object-URL leak was observed in the inspected code.
+
+Architecture:
+  - App Router route structure is straightforward.
+  - AppShell centralizes navigation, header, and common Card/Stat components.
+  - Route-specific CSS is largely scoped with route classes.
+  - frontend/src/lib/api.ts exposes demo-shaped functions but does not issue
+    network requests; application pages currently implement demo behavior
+    directly rather than using a service boundary.
+  - There is no global state requirement apparent from the current feature set.
+
+Accessibility/SEO:
+  - Many icon-only controls have aria-labels; mobile menu has aria-expanded.
+  - Comparison dividers expose slider semantics and keyboard handling.
+  - Some raw images use meaningful alt text.
+  - Shared metadata exists in layout.tsx, but route-specific metadata and
+    canonical/OG metadata are absent.
+  - Raw img warnings indicate an optimization opportunity, not a build error.
+
+BACKEND AND API AUDIT
+---------------------
+Backend framework/entry point:
+  - No FastAPI, Flask, Express, or other backend service entry point was found
+    in the project root.
+  - No API route implementation was found in the Next.js app.
+
+frontend/src/lib/api.ts:
+  - NEXT_PUBLIC_API_BASE_URL is read but never used for a request.
+  - uploadImage returns the supplied image locally with demo: true.
+  - reconstructImage returns the input image and selected model with demo: true.
+  - getProcessingStatus returns idle/0 with demo: true.
+  - getAnalytics returns an empty object with demo: true.
+  - getModelInformation returns frontend catalog metadata with demo: true.
+
+Conclusion:
+  - The frontend is not genuinely connected to an inference backend.
+  - No API endpoint could be safely tested because no backend endpoint exists.
+  - File uploads never leave the browser in the current implementation.
+  - Browser progress is simulated and must not be used as evidence of model
+    execution.
+
+MACHINE LEARNING AUDIT
+----------------------
+Model architecture:
+  - unet.py defines a 3-channel RGB U-Net with encoder/decoder skip
+    connections and a 3-channel final convolution.
+  - attention_unet.py defines an Attention U-Net with attention gates and
+    3-channel RGB output.
+  - Both tested models accept (1, 3, 256, 256) and return (1, 3, 256, 256).
+  - AttentionUNet constructor accepts in_channels but its Encoder is hardcoded
+    to 3 input channels; non-RGB constructor use is therefore unsupported and
+    should be documented or corrected in future work.
+  - The model definitions have no final sigmoid. Training uses L1 loss against
+    [0, 1] tensors; prediction.py clamps output before converting to an image.
+
+Training:
+  - Multiple training scripts exist, including controlled U-Net and Attention
+    U-Net variants.
+  - train_attention_controlled.py records seed, batch size 2, 20 epochs,
+    learning rate 0.0001, L1 loss, Adam, and ReduceLROnPlateau.
+  - Training histories exist for controlled U-Net and Attention U-Net.
+  - Experiment lineage between scripts and checkpoints is not consolidated.
+
+Prediction/evaluation:
+  - predict.py loads models/unet.pth and predicts only dataset/cloudy/0.png.
+  - predict_attention.py is similarly file-path-driven.
+  - evaluate.py and evaluate_attention.py compare one output file with
+    dataset/clean/0.png. They do not iterate over the held-out test split.
+  - No aggregate PSNR/SSIM report over all 75 test samples was found.
+  - No uncertainty, confidence, cloud-severity stratification, or baseline
+    comparison was found in the evaluated scripts.
+  - No model performance claims are made in this report.
+
+Checkpoint results:
+  PASS  models/unet.pth                    30,800,505 bytes; loaded/forwarded.
+  PASS  models/attention_unet.pth         125,680,219 bytes; loaded/forwarded.
+  PASS  models/best_attention_unet.pth    125,681,323 bytes; loaded/forwarded.
+  PASS  models/unet_controlled_best.pth    30,803,417 bytes; file present.
+  PASS  models/unet_controlled_final.pth   30,803,459 bytes; file present.
+  PASS  models/attention_controlled_best.pth 125,682,635 bytes; file present.
+  PASS  models/attention_controlled_final.pth 125,682,843 bytes; file present.
+  FAIL  models/unet_baseline.pth           0 bytes; empty checkpoint.
+
+DATASET AUDIT
+-------------
+Observed data:
+  - dataset/cloudy: 500 files.
+  - dataset/clean: 500 files.
+  - Format: 500 PNG files in each directory.
+  - All filenames correspond exactly between cloudy and clean directories.
+  - All 1,000 images opened and verified successfully.
+  - All images were RGB and 512 x 512 on disk.
+  - Dataset loader converts to RGB and resizes to 256 x 256.
+  - No corrupt files were found in the inspected image set.
+
+Split:
+  - results/data_split.json reports total_images = 500.
+  - Train: 350.
+  - Validation: 75.
+  - Test: 75.
+  - Seed: 42.
+  - verify_data_split.py: PASS; no duplicate, overlapping, or missing indices.
+
+Limitations:
+  - Filename pairing was verified, but semantic/geospatial alignment was not
+    independently established beyond paired filenames.
+  - Scene-level leakage cannot be ruled out from filenames alone.
+  - Dataset is RGB; it cannot support genuine NDVI/NDWI computation without
+    suitable red and near-infrared bands.
+
+SECURITY AUDIT
+--------------
+Security review result: No high-confidence exploitable vulnerabilities found.
+
+Checked areas:
+  - Frontend file type, extension, browser decode, and 12 MB size validation.
+  - Object URL lifecycle and local-only upload behavior.
+  - Environment-variable references and hardcoded credentials.
+  - API/backend exposure and CORS surface.
+  - Unsafe file handling patterns in the inspected project.
+  - Dependency advisories.
+
+Dependency result:
+  - npm audit --omit=dev: PASS; 0 production vulnerabilities reported.
+
+No secrets or API keys are reproduced in this report. The absence of a backend
+reduces the current attack surface, but backend upload validation, storage
+controls, authentication, authorization, rate limiting, and CORS policy must
+be reviewed again when an API is introduced.
+
+PERFORMANCE AUDIT
+------------------
+Positive observations:
+  - Landing and shared brand images use Next Image in several locations.
+  - Static route generation completed successfully.
+  - No unnecessary network API requests were observed because the current API
+    layer is local demo code.
+  - Studio cleans object URLs and timers.
+
+Opportunities:
+  - Replace remaining raw img elements in Studio and Agriculture with an
+    appropriate optimized image strategy where blob URLs require it.
+  - The 3.46 MB public asset set includes a 971 KB logo and repeated PNG assets;
+    compression and deduplication could reduce transfer size.
+  - Large checkpoint files are correctly outside frontend public assets, but
+    deployment documentation should explicitly exclude them from frontend
+    bundles.
+  - Aggregate evaluation should be run offline and its results stored as
+    versioned experiment artifacts rather than calculated in the browser.
+
+BUILD AND TEST VALIDATION
+-------------------------
+Frontend:
+  - npm run lint: PASS with 0 errors, 7 warnings.
+  - npm run build: PASS.
+  - TypeScript validation during build: PASS.
+  - Route HTTP checks: 9 application/not-found paths checked; expected status
+    results returned.
+  - Browser DOM route checks: all seven application routes rendered an h1.
+  - Responsive overflow checks: all seven application routes checked at four
+    viewport sizes; no horizontal overflow reported.
+
+Python/ML:
+  - verify_data_split.py: PASS.
+  - test_dataset_integrity.py: PASS.
+  - check_checkpoints.py: PARTIAL; three inspected checkpoints loaded and
+    forwarded successfully, while unet_baseline.pth failed because it is empty.
+  - pytest -q: NOT RUN; pytest is not installed in the configured Python
+    environment.
+  - No training was run.
+  - No prediction script was run because it writes output artifacts and the
+    audit was restricted to creating only this report.
+  - No aggregate evaluation was run.
+
+Browser:
+  - Route rendering: PASS.
+  - Navigation target inspection: PASS for discovered internal links.
+  - Responsive overflow: PASS for requested viewport sizes.
+  - Full end-to-end file-picker and drag/drop execution: PARTIALLY TESTED by
+    source and DOM inspection; no test fixture was injected.
+  - Backend API tests: NOT TESTED; no backend exists.
+
+COMPLETED FEATURES
+------------------
+  - Next.js application shell and shared navigation.
+  - Landing page with local imagery and comparison interaction.
+  - Dashboard with clearly labelled demonstration statistics.
+  - Studio local upload, validation, preview, metadata, model selection,
+    simulated progress, comparison, zoom, fullscreen, reset, and demo download.
+  - Analytics research dashboard with explicit unavailable evaluation states.
+  - Agriculture research dashboard with RGB and planned-analysis disclaimers.
+  - Model Library informational architecture cards.
+  - Settings informational page.
+  - Paired RGB dataset loader and integrity checks.
+  - U-Net and Attention U-Net definitions.
+  - Dataset split metadata and split verification.
+  - Several non-empty model checkpoints.
+
+INCOMPLETE OR NOT IMPLEMENTED
+-----------------------------
+  - Frontend-to-backend upload/inference/status integration.
+  - Production PyTorch inference endpoint.
+  - Genuine reconstruction result in Studio.
+  - Aggregate held-out test evaluation.
+  - Connected PSNR, SSIM, validation-loss, and training-log analytics.
+  - Genuine NDVI/NDWI analysis.
+  - Multispectral red/NIR data pipeline.
+  - Crop-health prediction or measured agricultural analytics.
+  - Functional filters, export, refresh, settings persistence, and model
+    actions.
+  - Reproducible dependency manifest for the Python environment.
+  - Non-empty U-Net baseline checkpoint.
+
+PRIORITIZED ISSUE TRACKER
+-------------------------
+ID    Severity  Component/location                 Evidence and impact
+----  --------  ---------------------------------  ------------------------
+P1-01 P1        Frontend/API integration           frontend/src/lib/api.ts
+                  contains demo returns only; no backend entry point or
+                  network request exists. Studio cannot perform real
+                  reconstruction.
+                  Suggested fix: define and document a versioned API contract,
+                  implement server-side validation/inference, connect upload,
+                  job status, result retrieval, and explicit error states.
+                  Blocker: backend service and deployment environment required.
+
+P1-02 P1        ML evaluation                     evaluate.py and
+                  evaluate_attention.py evaluate only one hard-coded output
+                  against dataset/clean/0.png, not the 75-image test split.
+                  Suggested fix: build a deterministic held-out evaluator that
+                  loads the saved split, aggregates metrics, records config,
+                  and stores reproducible artifacts.
+                  Blocker: decide checkpoint/experiment lineage first.
+
+P1-03 P1        Model artifacts                    models/unet_baseline.pth is
+                  0 bytes; checkpoint loader reports FAIL.
+                  Suggested fix: replace with a verified checkpoint or remove
+                  it from supported artifact lists and document its absence.
+                  Blocker: source training run or intentional deprecation.
+
+P2-01 P2        Dashboard filter                  dashboard/page.tsx renders
+                  "Last 7 days" as a selector-shaped span with no handler.
+                  Suggested fix: either implement date-range state/filtering or
+                  render it as plain descriptive text.
+
+P2-02 P2        Model/Settings actions            Model Library and Settings
+                  are informational; requested-looking actions and persistence
+                  are not implemented.
+                  Suggested fix: add only actions backed by real behavior, or
+                  keep explicit unavailable labels and avoid action affordances.
+
+P2-03 P2        Experiment reproducibility       Multiple training variants and
+                  checkpoints lack a single manifest linking code, data split,
+                  hyperparameters, and checkpoint.
+                  Suggested fix: add a versioned experiment metadata format.
+
+P2-04 P2        Python test tooling               pytest is absent; test files
+                  are scripts rather than discoverable pytest tests.
+                  Suggested fix: add a documented test dependency and convert
+                  assertions to a reproducible test command.
+
+P3-01 P3        Frontend image optimization      ESLint reports five raw img
+                  warnings in Studio/Agriculture.
+                  Suggested fix: use Next Image where compatible, or document
+                  why blob previews require a native img element.
+
+P3-02 P3        Analytics source hygiene         analytics/page.tsx imports
+                  Legend but does not use it.
+                  Suggested fix: remove the unused import or add the intended
+                  legend only if it represents real data.
+
+P3-03 P3        Documentation                    frontend/README.md is generic
+                  create-next-app documentation and omits project setup,
+                  route inventory, demo limitations, and ML workflow.
+                  Suggested fix: replace with project-specific documentation.
+
+RECOMMENDED DEVELOPMENT ROADMAP
+--------------------------------
+Phase 1: Reproducibility and baseline
+  1. Add Python dependency manifest and a documented environment setup.
+  2. Decide whether unet_baseline.pth is required; restore or remove it.
+  3. Create an experiment manifest linking each checkpoint to code, split,
+     preprocessing, hyperparameters, and training history.
+  4. Install a supported test runner and automate dataset/model smoke tests.
+
+Phase 2: Evaluation
+  1. Implement held-out test inference for all 75 test pairs.
+  2. Compute aggregate PSNR, SSIM, and L1 with per-image and summary output.
+  3. Add baseline and cloud-severity comparisons only when labels and methods
+     are defined.
+  4. Validate that scene-level splitting prevents leakage.
+
+Phase 3: Backend integration
+  1. Define authenticated upload and inference contracts.
+  2. Validate content, dimensions, size, and storage server-side.
+  3. Add job status, timeouts, cancellation, and structured errors.
+  4. Connect Studio to real inference without relabelling demo outputs.
+
+Phase 4: Research analytics
+  1. Connect evaluation artifacts to Analytics.
+  2. Display provenance for every metric and checkpoint.
+  3. Add training curves from saved logs.
+  4. Add uncertainty and limitation disclosures.
+
+Phase 5: Earth-observation extensions
+  1. Add multispectral red/NIR data with band provenance.
+  2. Implement and validate NDVI/NDWI using the correct formulations.
+  3. Add crop-health research only after validated labels and models exist.
+
+FINAL PROJECT STATUS
+--------------------
+Area                                  Status
+------------------------------------  ------------------
+Frontend route rendering              Complete
+Frontend visual prototype             Complete
+Shared navigation                     Complete
+Studio local demonstration            Complete
+Studio real reconstruction             Not Implemented
+Backend/API                           Not Implemented
+U-Net architecture                    Complete
+Attention U-Net architecture          Complete
+Training artifacts                    Partially Complete
+Dataset preparation                   Partially Complete
+Dataset integrity                     Complete
+Dataset split verification             Complete
+Aggregate evaluation                  Not Implemented
+Analytics with real metrics           Not Implemented
+Multispectral NDVI/NDWI               Not Implemented
+Agricultural prediction               Not Implemented
+Deployment readiness                  Partially Complete
+Research demonstration readiness      Partially Complete
+
+Overall maturity assessment:
+  A strong frontend and local research prototype, with verified paired data,
+  model definitions, split metadata, and usable checkpoint artifacts. It is
+  not yet an end-to-end cloud-removal system because inference is not exposed
+  through the application and evaluation is not aggregated over the held-out
+  test set. The project is suitable for a transparent research demonstration,
+  but claims of production inference, measured frontend analytics, NDVI/NDWI,
+  or crop-health prediction would be unsupported until the listed blockers are
+  addressed.
+
+AUDIT INTEGRITY NOTE
+--------------------
+This audit did not modify existing application source files, datasets,
+checkpoints, dependencies, or configuration. The only file created/updated by
+this audit is:
+  C:\Users\mcsr8\Desktop\cloud-removal-poc\PROJECT_AUDIT_REPORT.txt
