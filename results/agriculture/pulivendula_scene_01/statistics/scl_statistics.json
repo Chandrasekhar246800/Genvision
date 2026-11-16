@@ -1,0 +1,50 @@
+{
+  "total_pixels": 1000000,
+  "classes": {
+    "3": {
+      "name": "Cloud Shadow",
+      "count": 130912,
+      "percentage": 13.0912
+    },
+    "4": {
+      "name": "Vegetation",
+      "count": 159608,
+      "percentage": 15.9608
+    },
+    "5": {
+      "name": "Bare Soil / Urban",
+      "count": 385864,
+      "percentage": 38.5864
+    },
+    "6": {
+      "name": "Water",
+      "count": 2052,
+      "percentage": 0.2052
+    },
+    "7": {
+      "name": "Unclassified",
+      "count": 17588,
+      "percentage": 1.7588
+    },
+    "8": {
+      "name": "Cloud Medium Probability",
+      "count": 132560,
+      "percentage": 13.256
+    },
+    "9": {
+      "name": "Cloud High Probability",
+      "count": 171416,
+      "percentage": 17.1416
+    }
+  },
+  "obstruction_summary": {
+    "cloud_pixels": 303976,
+    "cloud_percent": 30.397600000000004,
+    "shadow_pixels": 130912,
+    "shadow_percent": 13.0912,
+    "total_obstructed_pixels": 434888,
+    "total_obstructed_percent": 43.4888,
+    "clear_pixels": 565112,
+    "clear_percent": 56.511199999999995
+  }
+}

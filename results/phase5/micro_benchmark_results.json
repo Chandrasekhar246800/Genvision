@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "timestamp": "2026-11-16T16:35:56",
+    "os": "Windows 10",
+    "processor": "Intel64 Family 6 Model 197 Stepping 2, GenuineIntel",
+    "pytorch_version": "2.12.0+cpu",
+    "cpu_threads": 16,
+    "cuda_available": false
+  },
+  "model_architecture": {
+    "name": "ResDiffUNet",
+    "channels": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "spatial_input_channels": 9,
+    "spatial_output_channels": 3,
+    "cond_dim": 320,
+    "total_parameters": 4466403,
+    "trainable_parameters": 4466403,
+    "buffers": 0,
+    "fp32_size_mb": 17.037975311279297,
+    "initialization_time_ms": 13.663000000633474
+  },
+  "forward_latency_b1": {
+    "mean_ms": 63.606239999971876,
+    "median_ms": 63.564799999767274,
+    "std_ms": 2.18557690395485,
+    "min_ms": 59.86880000000383,
+    "max_ms": 68.88340000023163,
+    "warmup_runs": 10,
+    "measured_runs": 50
+  },
+  "training_step_latency": {
+    "batch_2": {
+      "batch_size": 2,
+      "warmup_runs": 5,
+      "measured_runs": 20,
+      "mean_ms": 534.2004099998576,
+      "median_ms": 515.8894999995027,
+      "std_ms": 74.97245273904153,
+      "min_ms": 470.63749999961146,
+      "max_ms": 804.3557999999393
+    },
+    "batch_4": {
+      "batch_size": 4,
+      "warmup_runs": 5,
+      "measured_runs": 15,
+      "mean_ms": 1187.4144933333203,
+      "median_ms": 1200.6408999995983,
+      "std_ms": 61.54959539281393,
+      "min_ms": 1050.8899999995265,
+      "max_ms": 1266.3437999999587
+    },
+    "projected_epoch_b4_sec": 104.49247541333219,
+    "projected_epoch_b2_sec": 93.48507174997508,
+    "projected_50_epoch_b4_min": 87.07706284444349
+  },
+  "ddim_reverse_sampling": {
+    "s5": {
+      "steps": 5,
+      "mean_ms": 442.42183999995177,
+      "median_ms": 442.2426000000996,
+      "std_ms": 4.109714823784758,
+      "min_ms": 438.33529999938037,
+      "max_ms": 447.27789999978995
+    },
+    "s10": {
+      "steps": 10,
+      "mean_ms": 952.1581199996945,
+      "median_ms": 953.7123000000065,
+      "std_ms": 41.6125214181401,
+      "min_ms": 903.1090999997105,
+      "max_ms": 1016.2185999997746
+    },
+    "cs_transunet_reference_ms": 128.0,
+    "total_end_to_end_s10_ms": 1080.1581199996945
+  },
+  "memory_profile": {
+    "rss_mb": -1.0,
+    "peak_rss_mb": -1.0,
+    "pagefile_mb": -1.0
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "target_requested": {
+    "lat": 14.42,
+    "lon": 78.23
+  },
+  "target_projected_center": {
+    "x": 848330.1413492361,
+    "y": 1596623.9808477669
+  },
+  "roi_actual_center": {
+    "lat": 14.419962813206638,
+    "lon": 78.23009079577903
+  },
+  "roi_bounds_projected": {
+    "left": 843340.0,
+    "bottom": 1591620.0,
+    "right": 853340.0,
+    "top": 1601620.0
+  },
+  "roi_bounds_wgs84": {
+    "min_lon": 78.18313760858503,
+    "min_lat": 14.37545433139142,
+    "max_lon": 78.2770625677214,
+    "max_lat": 14.464457898067444
+  },
+  "window_10m": {
+    "col_off": 4336,
+    "row_off": 9842,
+    "width": 1000,
+    "height": 1000
+  },
+  "crs": "EPSG:32643",
+  "pixel_size_meters": 10.0,
+  "roi_size_km": 10.0
+}

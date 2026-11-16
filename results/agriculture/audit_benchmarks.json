@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-11-16 00:45:58",
+  "backend": {},
+  "models": {},
+  "agriculture": {},
+  "security": {},
+  "performance": {
+    "get_health_ms": 49.21,
+    "get_models_ms": 3.32,
+    "get_metrics_ms": 3.03,
+    "unet_wall_ms": 146.32,
+    "unet_inference_ms": 140.6,
+    "attention_unet_wall_ms": 195.14,
+    "attention_unet_inference_ms": 189.99,
+    "agri_health_ms": 3.27,
+    "agri_summary_ms": 1.91,
+    "agri_indices_ms": 1.79,
+    "agri_masks_ms": 1.66,
+    "agri_visualizations_catalog_ms": 1.98,
+    "raster_streaming": {
+      "true_color": {
+        "size_bytes": 3279033,
+        "dimensions": "1819x1916",
+        "latency_ms": 15.33
+      },
+      "false_color": {
+        "size_bytes": 3734971,
+        "dimensions": "1819x1916",
+        "latency_ms": 12.98
+      },
+      "ndvi": {
+        "size_bytes": 3063254,
+        "dimensions": "1921x1726",
+        "latency_ms": 10.59
+      },
+      "ndwi": {
+        "size_bytes": 2244658,
+        "dimensions": "1896x1726",
+        "latency_ms": 8.3
+      },
+      "ndmi": {
+        "size_bytes": 2400947,
+        "dimensions": "1896x1726",
+        "latency_ms": 8.64
+      },
+      "scl_classification": {
+        "size_bytes": 175851,
+        "dimensions": "2152x1726",
+        "latency_ms": 2.41
+      },
+      "obstruction_map": {
+        "size_bytes": 101566,
+        "dimensions": "2154x1726",
+        "latency_ms": 2.36
+      },
+      "cloud_free_agricultural_roi": {
+        "size_bytes": 3697635,
+        "dimensions": "1876x1726",
+        "latency_ms": 12.54
+      }
+    }
+  }
+}

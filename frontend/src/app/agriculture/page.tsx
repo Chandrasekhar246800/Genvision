@@ -1,70 +1,184 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { BarChart3, CheckCircle2, Cloud, Droplets, Expand, Eye, Info, Leaf, LockKeyhole, Map, Mountain, Sprout, ZoomIn, ZoomOut } from "lucide-react";
-import { AppShell, Card } from "../../components/app-shell";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Activity,
+  AlertCircle,
+  BarChart3,
+  CheckCircle2,
+  Database,
+  ExternalLink,
+  Layers,
+  Leaf,
+  RefreshCw,
+  Satellite,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+import { AppShell } from "../../components/app-shell";
+import {
+  AgricultureErrorState,
+  AgricultureLoadingSkeleton,
+} from "../../components/agriculture/AgricultureLoadingState";
+import { AgricultureMetricCards } from "../../components/agriculture/AgricultureMetricCard";
+import { AgricultureOverview } from "../../components/agriculture/AgricultureOverview";
+import { CloudImpactComparison } from "../../components/agriculture/CloudImpactComparison";
+import { ObstructionChart } from "../../components/agriculture/ObstructionChart";
+import { SatelliteImageCompare } from "../../components/agriculture/SatelliteImageCompare";
+import { SatelliteImageViewer } from "../../components/agriculture/SatelliteImageViewer";
+import {
+  getAgricultureHealth,
+  getAgricultureIndices,
+  getAgricultureMasks,
+  getAgricultureSummary,
+  getAgricultureVisualizations,
+} from "../../lib/api";
+import type {
+  AgricultureHealth,
+  AgricultureIndices,
+  AgricultureMasks,
+  AgricultureSummary,
+  VisualizationsList,
+} from "../../types";
 
-const applications = [
-  { icon: Leaf, title: "Crop monitoring", text: "Observe agricultural land over time when cloud-obscured scenes limit continuity.", tone: "green" },
-  { icon: Sprout, title: "Vegetation assessment", text: "Prepare clearer imagery for future vegetation-focused research workflows.", tone: "cyan" },
-  { icon: Droplets, title: "Water resource monitoring", text: "Support research into water-related features once appropriate spectral data is available.", tone: "blue" },
-  { icon: Map, title: "Land use analysis", text: "Study field structure, surrounding terrain, and seasonal observation opportunities.", tone: "violet" },
-];
+export default function AgriculturePage() {
+  const [health, setHealth] = useState<AgricultureHealth | null>(null);
+  const [summary, setSummary] = useState<AgricultureSummary | null>(null);
+  const [indices, setIndices] = useState<AgricultureIndices | null>(null);
+  const [masks, setMasks] = useState<AgricultureMasks | null>(null);
+  const [visualizations, setVisualizations] = useState<VisualizationsList | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
 
-export default function Agriculture() {
-  const [zoom, setZoom] = useState(1);
-  const viewer = useRef<HTMLDivElement>(null);
+  const fetchAgricultureData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [h, s, idx, m, v] = await Promise.all([
+        getAgricultureHealth(),
+        getAgricultureSummary(),
+        getAgricultureIndices(),
+        getAgricultureMasks(),
+        getAgricultureVisualizations(),
+      ]);
+      setHealth(h);
+      setSummary(s);
+      setIndices(idx);
+      setMasks(m);
+      setVisualizations(v);
+      setLastRefreshed(new Date());
+    } catch (err) {
+      console.error("Agriculture API Fetch Error:", err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to connect to the agricultural intelligence service. Please check that the FastAPI backend is running."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  async function fullscreen() {
-    if (!viewer.current) return;
-    if (document.fullscreenElement) await document.exitFullscreen();
-    else await viewer.current.requestFullscreen();
-  }
+  useEffect(() => {
+    fetchAgricultureData();
+  }, [fetchAgricultureData]);
 
-  return <AppShell title="Agricultural Intelligence" description="Explore how reconstructed satellite imagery can support vegetation monitoring, crop research, and environmental observation.">
-    <div className="agri-premium">
-      <div className="agri-toolbar"><span className="agri-earth-badge"><Eye size={13} /> EARTH OBSERVATION</span><span className="agri-status"><i /> Research concept · RGB prototype</span></div>
+  return (
+    <AppShell
+      title="Agricultural Intelligence"
+      description="Operational Sentinel-2C Level-2A Earth Observation analysis over agricultural regions of Pulivendula, Andhra Pradesh. Multispectral vegetation vigor, water deficit, canopy moisture, and atmospheric obstruction analysis."
+    >
+      <div className="space-y-6">
+        {/* Status Toolbar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs font-mono">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 font-medium">
+              <Satellite size={13} className="text-cyan-400" />
+              EARTH OBSERVATION PIPELINE
+            </span>
+            {loading ? (
+              <span className="text-slate-400 flex items-center gap-1.5">
+                <RefreshCw size={12} className="animate-spin text-cyan-400" />
+                Querying FastAPI endpoints...
+              </span>
+            ) : error ? (
+              <span className="text-red-400 flex items-center gap-1.5">
+                <AlertCircle size={13} />
+                Service Offline
+              </span>
+            ) : (
+              <span className="text-emerald-400 flex items-center gap-1.5">
+                <CheckCircle2 size={13} />
+                Backend Operational · {summary?.satellite} ({summary?.tile_id})
+              </span>
+            )}
+          </div>
 
-      <Card className="agri-scene-card">
-        <div className="agri-scene-copy"><span className="card-kicker">01 / SATELLITE SCENE</span><h2>A clearer view of agricultural terrain.</h2><p>Cloud-free image reconstruction can help researchers maintain visual continuity across agricultural observation studies. This prototype currently presents RGB imagery and illustrative research concepts.</p><div className="agri-scene-meta"><span><strong>Scene type</strong> Agricultural terrain</span><span><strong>Input</strong> RGB imagery</span><span><strong>Status</strong> Illustrative visualization</span></div></div>
-        <div ref={viewer} className="agri-image-viewer"><img src="/images/hero/satellite-scene.png" alt="Illustrative RGB satellite scene for agricultural research" style={{ transform: `scale(${zoom})` }} /><div className="agri-image-overlay"><span>AGRICULTURAL RESEARCH</span><span>RGB · ILLUSTRATIVE</span></div><div className="agri-viewer-tools"><button onClick={() => setZoom(value => Math.max(1, value - .25))} disabled={zoom === 1} aria-label="Zoom out"><ZoomOut size={14} /></button><button onClick={() => setZoom(value => Math.min(2, value + .25))} disabled={zoom === 2} aria-label="Zoom in"><ZoomIn size={14} /></button><button onClick={fullscreen} aria-label="View satellite scene fullscreen"><Expand size={14} /></button></div></div>
-      </Card>
+          <div className="flex items-center gap-3 text-slate-400">
+            {!loading && !error && (
+              <>
+                {lastRefreshed && (
+                  <span className="hidden md:inline">
+                    Refreshed: {lastRefreshed.toLocaleTimeString()}
+                  </span>
+                )}
+                <button
+                  onClick={fetchAgricultureData}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 transition cursor-pointer flex items-center gap-1"
+                  title="Reload data from backend"
+                >
+                  <RefreshCw size={12} /> Sync API
+                </button>
+              </>
+            )}
+          </div>
+        </div>
 
-      <div className="agri-section-heading"><div><span className="card-kicker">02 / VEGETATION MONITORING</span><h2>Research indicators, not fabricated measurements.</h2></div><p>These indicators describe future analysis paths. No vegetation score is calculated from the current RGB prototype.</p></div>
-      <div className="agri-indicators">
-        <ResearchIndicator icon={Leaf} title="Vegetation health" status="PLANNED" text="Potentially assess vegetation condition using validated multispectral indices and reference data." tone="green" />
-        <ResearchIndicator icon={BarChart3} title="Vegetation coverage" status="RESEARCH CONCEPT" text="Explore field coverage and seasonal change after suitable labelled imagery is connected." tone="cyan" />
-        <ResearchIndicator icon={Mountain} title="Land surface observation" status="CONCEPTUAL" text="Use reconstructed scenes to study terrain context and improve observation continuity." tone="violet" />
+        {/* Content Body */}
+        {loading ? (
+          <AgricultureLoadingSkeleton />
+        ) : error ? (
+          <AgricultureErrorState error={error} onRetry={fetchAgricultureData} />
+        ) : summary && indices && masks ? (
+          <div className="space-y-6">
+            {/* 1. Overview Section */}
+            <AgricultureOverview summary={summary} />
+
+            {/* 2. Key Agricultural KPI Cards */}
+            <AgricultureMetricCards summary={summary} />
+
+            {/* 3. Interactive Visualization Raster Viewer */}
+            <SatelliteImageViewer catalog={visualizations?.visualizations} />
+
+            {/* 4. Spectral Contamination & Cloud Impact */}
+            <CloudImpactComparison data={indices} />
+
+            {/* 5. Atmospheric Obstruction & SCL Land Cover */}
+            <ObstructionChart masks={masks} />
+
+            {/* 6. Satellite Comparison: True Color vs Clear Canopy */}
+            <SatelliteImageCompare />
+
+            {/* 7. Methodology & Scientific Provenance Footer */}
+            <div className="p-6 rounded-xl bg-slate-900/50 border border-slate-800 space-y-3 text-xs text-slate-400">
+              <div className="flex items-center gap-2 text-slate-200 font-semibold font-mono text-sm">
+                <Database size={15} className="text-cyan-400" />
+                <span>Geospatial Processing Methodology & Citation</span>
+              </div>
+              <p className="leading-relaxed">
+                Multispectral observations are sourced from ESA Copernicus Sentinel-2C Level-2A (S2MSI2A, Datatake 43PHS, acquired 14 October 2026). Bottom-of-Atmosphere (BOA) surface reflectance values were scaled by 0.0001 with verified radiometric offset calibration. NDVI, NDWI (McFeeters), and NDMI (Gao) were computed from aligned 10m raster bands B02, B03, B04, B08, and bilinear resampled B11. Cloud and shadow pixels were identified and masked using the aligned Scene Classification Layer (SCL).
+              </p>
+              <div className="pt-2 flex flex-wrap gap-4 text-[11px] font-mono text-slate-500">
+                <span>Product Baseline: S2MSI2A</span>
+                <span>CRS: EPSG:32643 (WGS 84 / UTM Zone 43N)</span>
+                <span>Spatial GSD: 10.0m</span>
+                <span>ROI Bounding Box: 196320 - 206320 E, 1590480 - 1600480 N</span>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
-
-      <Card className="agri-crop-health"><div className="agri-section-heading"><div><span className="card-kicker">02A / CROP HEALTH MONITORING</span><h2>From visual continuity to seasonal research.</h2></div><span className="agri-concept-pill"><LockKeyhole size={12} /> PLANNED CAPABILITY</span></div><div className="agri-crop-grid"><CropTopic icon={Sprout} title="Crop growth observation" text="Compare field appearance across observation windows when cloud-free imagery is available." /><CropTopic icon={Leaf} title="Agricultural land assessment" text="Study field structure and surrounding land context without claiming crop classification." /><CropTopic icon={Cloud} title="Potential crop stress" text="Investigate stress signals only after validated spectral data and labelled references are connected." /><CropTopic icon={BarChart3} title="Seasonal monitoring" text="Build a consistent time series for research, with reconstruction uncertainty kept visible." /></div></Card>
-
-      <div className="agri-analysis-grid">
-        <IndexPanel type="NDVI" icon={Leaf} title="Vegetation greenness research" description="NDVI uses near-infrared and red spectral information to assess vegetation greenness." />
-        <IndexPanel type="NDWI" icon={Droplets} title="Water observation research" description="NDWI can help identify water content or water-related features, depending on the formulation and bands used." />
-      </div>
-
-      <Card className="agri-applications"><div className="agri-section-heading"><div><span className="card-kicker">03 / AGRICULTURAL APPLICATIONS</span><h2>Where clearer observation could help.</h2></div><span className="agri-concept-pill"><LockKeyhole size={12} /> RESEARCH APPLICATIONS</span></div><div className="agri-application-grid">{applications.map(({ icon: Icon, title, text, tone }) => <div className={`agri-application ${tone}`} key={title}><Icon size={18} /><strong>{title}</strong><p>{text}</p></div>)}</div></Card>
-
-      <Card className="agri-comparison-card"><div className="agri-section-heading"><div><span className="card-kicker">04 / RESEARCH MOTIVATION</span><h2>Cloud-obscured input versus clean reference.</h2></div></div><div className="agri-comparison"><div><img src="/images/hero/hero-cloudy.png" alt="Cloud-obscured satellite image input" /><span>CLOUDY INPUT</span></div><div><img src="/images/hero/hero-clean.png" alt="Clean reference satellite image" /><span>CLEAN REFERENCE · DATASET PAIR</span></div></div><div className="agri-disclaimer"><Info size={14} /> The clean reference is a paired dataset image, not a generated model output. It is shown only to explain the research motivation.</div></Card>
-
-      <Card className="agri-insights"><div className="agri-insight-main"><span className="card-kicker">05 / RESEARCH INSIGHTS</span><h2>From clearer scenes to stronger observation studies.</h2><p>Cloud obstruction can interrupt agricultural time series and hide field-level context. Reconstruction research may help make those scenes more usable for visual analysis, but reconstructed pixels require validation before scientific interpretation.</p></div><div className="agri-insight-list"><Insight icon={Cloud} title="Cloud obstruction" text="Missing visibility can break continuity across observation windows." /><Insight icon={CheckCircle2} title="Validation first" text="Reference pairs and held-out evaluation are required before claims." /><Insight icon={LockKeyhole} title="Spectral limitation" text="RGB imagery cannot provide genuine NDVI or NDWI calculations." /></div></Card>
-    </div>
-  </AppShell>;
-}
-
-function ResearchIndicator({ icon: Icon, title, status, text, tone }: { icon: React.ElementType; title: string; status: string; text: string; tone: string }) {
-  return <div className={`agri-indicator ${tone}`}><div className="agri-indicator-icon"><Icon size={17} /></div><div><span>{status}</span><strong>{title}</strong><p>{text}</p></div></div>;
-}
-
-function IndexPanel({ type, icon: Icon, title, description }: { type: string; icon: React.ElementType; title: string; description: string }) {
-  return <Card className="agri-index-panel"><div className="agri-index-head"><div className={`agri-index-icon ${type.toLowerCase()}`}><Icon size={17} /></div><div><span className="card-kicker">{type} · PLANNED</span><h2>{title}</h2></div></div><p>{description}</p><div className="agri-spectrum"><span /><span /><span /><span /><span /></div><div className="agri-spectrum-labels"><small>Low intensity</small><small>Higher intensity</small></div><div className="agri-index-note"><LockKeyhole size={13} /> Requires multispectral red / near-infrared bands. No {type} values are calculated here.</div></Card>;
-}
-
-function Insight({ icon: Icon, title, text }: { icon: React.ElementType; title: string; text: string }) {
-  return <div><Icon size={16} /><span><strong>{title}</strong><small>{text}</small></span></div>;
-}
-
-function CropTopic({ icon: Icon, title, text }: { icon: React.ElementType; title: string; text: string }) {
-  return <div className="agri-crop-topic"><Icon size={15} /><div><strong>{title}</strong><span>{text}</span></div></div>;
+    </AppShell>
+  );
 }

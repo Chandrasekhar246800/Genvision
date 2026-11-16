@@ -1,0 +1,4 @@
+epoch,train_loss,val_loss,learning_rate,epoch_duration_sec,elapsed_sec,is_best,prob_thin,prob_moderate,prob_thick
+1,0.308898,0.185587,0.00010000,5.22,5.22,YES,0.6445,0.2252,0.1303
+2,0.175454,0.081286,0.00010000,10.62,16.15,YES,0.5699,0.2689,0.1613
+3,0.137855,0.110081,0.00010000,10.69,10.69,NO,0.5435,0.2692,0.1873

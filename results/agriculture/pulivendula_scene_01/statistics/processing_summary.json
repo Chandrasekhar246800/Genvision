@@ -1,0 +1,62 @@
+{
+  "status": "PROCESSING SUCCESSFUL",
+  "dataset": {
+    "name": "pulivendula_scene_01",
+    "satellite": "Sentinel-2C",
+    "tile": "43PHS",
+    "acquisition_date": "14 October 2026",
+    "processing_level": "Level-2A",
+    "crs": "EPSG:32643"
+  },
+  "roi": {
+    "name": "Pulivendula Agricultural Study Window",
+    "dimensions": [
+      1000,
+      1000
+    ],
+    "resolution_meters": 10.0,
+    "area_sq_km": 100.0,
+    "center": {
+      "lat": 14.42,
+      "lon": 78.23
+    },
+    "wgs84_bounds": {
+      "min_lon": 78.18313760858503,
+      "min_lat": 14.37545433139142,
+      "max_lon": 78.2770625677214,
+      "max_lat": 14.464457898067444
+    },
+    "utm_bounds": {
+      "left": 843340.0,
+      "bottom": 1591620.0,
+      "right": 853340.0,
+      "top": 1601620.0
+    }
+  },
+  "reflectance_calibration": {
+    "scale_factor": 10000.0,
+    "offset_dn": -1000.0,
+    "formula": "Reflectance = max((DN - 1000) / 10000.0, 0.0)",
+    "baseline": "ESA Processing Baseline 04.00+"
+  },
+  "statistics": {
+    "total_pixels": 1000000,
+    "valid_clear_pixels": 565112,
+    "clear_percentage": 56.511199999999995,
+    "cloud_pixels": 303976,
+    "cloud_percentage": 30.397600000000004,
+    "shadow_pixels": 130912,
+    "shadow_percentage": 13.0912,
+    "total_obstructed_pixels": 434888,
+    "total_obstructed_percentage": 43.4888,
+    "ndvi_mean_clear": 0.3779630661010742,
+    "ndvi_max_clear": 0.8656534552574158,
+    "ndvi_min_clear": -0.17053593695163727,
+    "ndwi_mean_clear": -0.3935464918613434,
+    "ndmi_mean_clear": 0.0042343055829405785
+  },
+  "performance": {
+    "elapsed_seconds": 14.36,
+    "windowed_processing": true
+  }
+}

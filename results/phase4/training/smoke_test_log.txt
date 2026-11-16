@@ -1,0 +1,252 @@
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:19:11.536520
+================================================================================
+[2026-11-16 01:19:11] ================================================================================
+[2026-11-16 01:19:11] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:19:11] ================================================================================
+[2026-11-16 01:19:11] Mode: SMOKE TEST
+[2026-11-16 01:19:11] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:19:11] Seed: 42 | Epochs: 2 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:19:11] Effective Batch Size: 4
+[2026-11-16 01:19:11] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:19:11] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:19:11] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:19:11] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:19:11] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:19:11] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:19:12] Model initialized in 30.26ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:19:12] --------------------------------------------------------------------------------
+[2026-11-16 01:19:18] Epoch [01/02] | Train Loss: 0.308898 | Val Loss: 0.185587 | LR: 1.00e-04 | Time: 5.4s [NEW BEST]
+[2026-11-16 01:19:18]        CSEB Predicted Distribution (Val): Thin=64.4%, Mod=22.5%, Thick=13.0%
+[2026-11-16 01:19:24] Epoch [02/02] | Train Loss: 0.175454 | Val Loss: 0.081286 | LR: 1.00e-04 | Time: 5.6s [NEW BEST]
+[2026-11-16 01:19:24]        CSEB Predicted Distribution (Val): Thin=57.0%, Mod=26.9%, Thick=16.1%
+[2026-11-16 01:19:25] ================================================================================
+[2026-11-16 01:19:25] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:19:25] Total Duration: 11.37s | Avg Batch Step: 1178.5ms
+[2026-11-16 01:19:25] Best Epoch: 2 | Best Validation Loss: 0.081286
+[2026-11-16 01:19:25] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:19:25] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:19:25] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:19:25.428393
+================================================================================
+[2026-11-16 01:19:25] ================================================================================
+[2026-11-16 01:19:25] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:19:25] ================================================================================
+[2026-11-16 01:19:25] Mode: SMOKE TEST
+[2026-11-16 01:19:25] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:19:25] Seed: 42 | Epochs: 3 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:19:25] Effective Batch Size: 4
+[2026-11-16 01:19:25] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:19:25] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:19:25] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:19:25] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:19:25] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:19:25] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:19:25] Model initialized in 33.29ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:19:25] Restored checkpoint from C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth (Epoch 2, Best Val Loss: 0.081286)
+[2026-11-16 01:19:25] Resuming training from Epoch 3 of 3.
+[2026-11-16 01:19:25] --------------------------------------------------------------------------------
+[2026-11-16 01:19:31] Epoch [03/03] | Train Loss: 0.137855 | Val Loss: 0.110081 | LR: 1.00e-04 | Time: 5.1s
+[2026-11-16 01:19:31]        CSEB Predicted Distribution (Val): Thin=54.3%, Mod=26.9%, Thick=18.7%
+[2026-11-16 01:19:31] ================================================================================
+[2026-11-16 01:19:31] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:19:31] Total Duration: 5.20s | Avg Batch Step: 1078.3ms
+[2026-11-16 01:19:31] Best Epoch: 0 | Best Validation Loss: 0.081286
+[2026-11-16 01:19:31] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:19:31] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:19:31] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:21:54.170480
+================================================================================
+[2026-11-16 01:21:54] ================================================================================
+[2026-11-16 01:21:54] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:21:54] ================================================================================
+[2026-11-16 01:21:54] Mode: SMOKE TEST
+[2026-11-16 01:21:54] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:21:54] Seed: 42 | Epochs: 2 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:21:54] Effective Batch Size: 4
+[2026-11-16 01:21:54] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:21:54] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:21:54] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:21:54] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:21:54] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:21:54] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:21:54] Model initialized in 27.99ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:21:54] --------------------------------------------------------------------------------
+[2026-11-16 01:22:00] Epoch [01/02] | Train Loss: 0.308898 | Val Loss: 0.185587 | LR: 1.00e-04 | Time: 5.5s [NEW BEST]
+[2026-11-16 01:22:00]        CSEB Predicted Distribution (Val): Thin=64.4%, Mod=22.5%, Thick=13.0%
+[2026-11-16 01:22:06] Epoch [02/02] | Train Loss: 0.175454 | Val Loss: 0.081286 | LR: 1.00e-04 | Time: 5.7s [NEW BEST]
+[2026-11-16 01:22:06]        CSEB Predicted Distribution (Val): Thin=57.0%, Mod=26.9%, Thick=16.1%
+[2026-11-16 01:22:06] ================================================================================
+[2026-11-16 01:22:06] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:22:06] Total Duration: 11.57s | Avg Batch Step: 1202.4ms
+[2026-11-16 01:22:06] Best Epoch: 2 | Best Validation Loss: 0.081286
+[2026-11-16 01:22:06] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:22:06] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:22:06] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:22:06.838478
+================================================================================
+[2026-11-16 01:22:06] ================================================================================
+[2026-11-16 01:22:06] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:22:06] ================================================================================
+[2026-11-16 01:22:06] Mode: SMOKE TEST
+[2026-11-16 01:22:06] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:22:06] Seed: 42 | Epochs: 3 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:22:06] Effective Batch Size: 4
+[2026-11-16 01:22:06] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:22:06] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:22:06] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:22:06] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:22:06] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:22:06] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:22:07] Model initialized in 27.60ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:22:07] Restored checkpoint from C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth (Epoch 2, Best Val Loss: 0.081286)
+[2026-11-16 01:22:07] Resuming training from Epoch 3 of 3.
+[2026-11-16 01:22:07] --------------------------------------------------------------------------------
+[2026-11-16 01:22:12] Epoch [03/03] | Train Loss: 0.137855 | Val Loss: 0.110081 | LR: 1.00e-04 | Time: 5.3s
+[2026-11-16 01:22:12]        CSEB Predicted Distribution (Val): Thin=54.3%, Mod=26.9%, Thick=18.7%
+[2026-11-16 01:22:13] ================================================================================
+[2026-11-16 01:22:13] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:22:13] Total Duration: 5.42s | Avg Batch Step: 1133.9ms
+[2026-11-16 01:22:13] Best Epoch: 0 | Best Validation Loss: 0.081286
+[2026-11-16 01:22:13] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:22:13] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:22:13] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:30:25.860574
+================================================================================
+[2026-11-16 01:30:25] ================================================================================
+[2026-11-16 01:30:25] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:30:25] ================================================================================
+[2026-11-16 01:30:25] Mode: SMOKE TEST
+[2026-11-16 01:30:25] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:30:25] Seed: 42 | Epochs: 2 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:30:25] Effective Batch Size: 4
+[2026-11-16 01:30:25] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:30:25] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:30:25] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:30:25] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:30:25] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:30:25] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:30:26] Model initialized in 29.52ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:30:26] --------------------------------------------------------------------------------
+[2026-11-16 01:30:31] Epoch [01/02] | Train Loss: 0.308898 | Val Loss: 0.185587 | LR: 1.00e-04 | Time: 5.2s [NEW BEST]
+[2026-11-16 01:30:31]        CSEB Predicted Distribution (Val): Thin=64.4%, Mod=22.5%, Thick=13.0%
+[2026-11-16 01:30:36] Epoch [02/02] | Train Loss: 0.175454 | Val Loss: 0.081286 | LR: 1.00e-04 | Time: 5.1s [NEW BEST]
+[2026-11-16 01:30:36]        CSEB Predicted Distribution (Val): Thin=57.0%, Mod=26.9%, Thick=16.1%
+[2026-11-16 01:30:37] ================================================================================
+[2026-11-16 01:30:37] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:30:37] Total Duration: 10.59s
+[2026-11-16 01:30:37] Measured Forward/Backward: 1054.5ms | Optimizer Step: 32.0ms | Val Step: 307.7ms
+[2026-11-16 01:30:37] Projected Single Epoch (Full 350/75 Dataset): 199.0s (3.32 min)
+[2026-11-16 01:30:37] Projected 25 Epochs: 82.9 min (1.38 hrs)
+[2026-11-16 01:30:37] Best Epoch: 2 | Best Validation Loss: 0.081286
+[2026-11-16 01:30:37] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:30:37] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:30:37] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:30:37.517414
+================================================================================
+[2026-11-16 01:30:37] ================================================================================
+[2026-11-16 01:30:37] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:30:37] ================================================================================
+[2026-11-16 01:30:37] Mode: SMOKE TEST
+[2026-11-16 01:30:37] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:30:37] Seed: 42 | Epochs: 3 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:30:37] Effective Batch Size: 4
+[2026-11-16 01:30:37] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:30:37] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:30:37] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:30:37] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:30:37] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:30:37] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:30:37] Model initialized in 34.28ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:30:37] Restored checkpoint from C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth (Epoch 2, Best Epoch: 2, Best Val Loss: 0.081286)
+[2026-11-16 01:30:37] Resuming training from Epoch 3 of 3 (Restored Best Epoch: 2, Best Val Loss: 0.081286).
+[2026-11-16 01:30:37] --------------------------------------------------------------------------------
+[2026-11-16 01:30:43] Epoch [03/03] | Train Loss: 0.137855 | Val Loss: 0.110081 | LR: 1.00e-04 | Time: 5.1s
+[2026-11-16 01:30:43]        CSEB Predicted Distribution (Val): Thin=54.3%, Mod=26.9%, Thick=18.7%
+[2026-11-16 01:30:43] ================================================================================
+[2026-11-16 01:30:43] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:30:43] Total Duration: 5.17s
+[2026-11-16 01:30:43] Measured Forward/Backward: 1063.1ms | Optimizer Step: 27.7ms | Val Step: 284.1ms
+[2026-11-16 01:30:43] Projected Single Epoch (Full 350/75 Dataset): 199.3s (3.32 min)
+[2026-11-16 01:30:43] Projected 25 Epochs: 83.0 min (1.38 hrs)
+[2026-11-16 01:30:43] Best Epoch: 2 | Best Validation Loss: 0.081286
+[2026-11-16 01:30:43] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:30:43] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:30:43] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:31:21.932610
+================================================================================
+[2026-11-16 01:31:21] ================================================================================
+[2026-11-16 01:31:21] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:31:21] ================================================================================
+[2026-11-16 01:31:21] Mode: SMOKE TEST
+[2026-11-16 01:31:21] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:31:21] Seed: 42 | Epochs: 2 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:31:21] Effective Batch Size: 4
+[2026-11-16 01:31:21] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:31:21] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:31:21] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:31:21] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:31:21] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:31:21] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:31:22] Model initialized in 28.09ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:31:22] --------------------------------------------------------------------------------
+[2026-11-16 01:31:27] Epoch [01/02] | Train Loss: 0.308898 | Val Loss: 0.185587 | LR: 1.00e-04 | Time: 5.2s [NEW BEST]
+[2026-11-16 01:31:27]        CSEB Predicted Distribution (Val): Thin=64.4%, Mod=22.5%, Thick=13.0%
+[2026-11-16 01:31:38] Epoch [02/02] | Train Loss: 0.175454 | Val Loss: 0.081286 | LR: 1.00e-04 | Time: 10.6s [NEW BEST]
+[2026-11-16 01:31:38]        CSEB Predicted Distribution (Val): Thin=57.0%, Mod=26.9%, Thick=16.1%
+[2026-11-16 01:31:39] ================================================================================
+[2026-11-16 01:31:39] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:31:39] Total Duration: 16.44s
+[2026-11-16 01:31:39] Measured Forward/Backward: 1624.7ms | Optimizer Step: 45.8ms | Val Step: 471.3ms
+[2026-11-16 01:31:39] Projected Single Epoch (Full 350/75 Dataset): 306.3s (5.10 min)
+[2026-11-16 01:31:39] Projected 25 Epochs: 127.6 min (2.13 hrs)
+[2026-11-16 01:31:39] Best Epoch: 2 | Best Validation Loss: 0.081286
+[2026-11-16 01:31:39] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:31:39] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:31:39] ================================================================================
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:31:39.757891
+================================================================================
+[2026-11-16 01:31:39] ================================================================================
+[2026-11-16 01:31:39] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:31:39] ================================================================================
+[2026-11-16 01:31:39] Mode: SMOKE TEST
+[2026-11-16 01:31:39] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:31:39] Seed: 42 | Epochs: 3 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:31:39] Effective Batch Size: 4
+[2026-11-16 01:31:39] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:31:39] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:31:39] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:31:39] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:31:39] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:31:39] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:31:40] Model initialized in 27.73ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:31:40] Restored checkpoint from C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth (Epoch 2, Best Epoch: 2, Best Val Loss: 0.081286)
+[2026-11-16 01:31:40] Resuming training from Epoch 3 of 3 (Restored Best Epoch: 2, Best Val Loss: 0.081286).
+[2026-11-16 01:31:40] --------------------------------------------------------------------------------
+[2026-11-16 01:31:51] Epoch [03/03] | Train Loss: 0.137855 | Val Loss: 0.110081 | LR: 1.00e-04 | Time: 10.7s
+[2026-11-16 01:31:51]        CSEB Predicted Distribution (Val): Thin=54.3%, Mod=26.9%, Thick=18.7%
+[2026-11-16 01:31:51] ================================================================================
+[2026-11-16 01:31:51] TRAINING COMPLETE (SMOKE_TEST)
+[2026-11-16 01:31:51] Total Duration: 10.83s
+[2026-11-16 01:31:51] Measured Forward/Backward: 2197.8ms | Optimizer Step: 70.2ms | Val Step: 637.8ms
+[2026-11-16 01:31:51] Projected Single Epoch (Full 350/75 Dataset): 415.0s (6.92 min)
+[2026-11-16 01:31:51] Projected 25 Epochs: 172.9 min (2.88 hrs)
+[2026-11-16 01:31:51] Best Epoch: 2 | Best Validation Loss: 0.081286
+[2026-11-16 01:31:51] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_best.pth
+[2026-11-16 01:31:51] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_smoke_latest.pth
+[2026-11-16 01:31:51] ================================================================================

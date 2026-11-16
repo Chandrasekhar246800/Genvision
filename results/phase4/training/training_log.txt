@@ -1,0 +1,79 @@
+
+================================================================================
+GENVISION TRAINING SESSION - 2026-11-16T01:34:46.698110
+================================================================================
+[2026-11-16 01:34:46] ================================================================================
+[2026-11-16 01:34:46] GENVISION CS-TRANSUNET CONTROLLED TRAINING PIPELINE
+[2026-11-16 01:34:46] ================================================================================
+[2026-11-16 01:34:46] Mode: FULL CONTROLLED TRAINING
+[2026-11-16 01:34:46] Device: cpu | PyTorch: 2.12.0+cpu | Deterministic: True
+[2026-11-16 01:34:46] Seed: 42 | Epochs: 25 | Batch Size: 2 | Grad Accum Steps: 2
+[2026-11-16 01:34:46] Effective Batch Size: 4
+[2026-11-16 01:34:46] Optimizer: AdamW (lr=0.0001, weight_decay=0.0001)
+[2026-11-16 01:34:46] Gradient Clipping: max_norm=1.0
+[2026-11-16 01:34:46] Loss Formulation: Strict L1 Reconstruction (||X_hat - Y||_1)
+[2026-11-16 01:34:46] Note: CSEB severity prediction branch active via AdaLN; no severity cross-entropy loss applied.
+[2026-11-16 01:34:46] Dataset split verified: 350 train, 75 val, 75 held-out test images.
+[2026-11-16 01:34:46] Isolation check: Held-out test set will NOT be loaded or evaluated.
+[2026-11-16 01:34:47] Model initialized in 32.14ms. Total parameters: 7,128,906 (7.13M)
+[2026-11-16 01:34:47] --------------------------------------------------------------------------------
+[2026-11-16 01:40:29] Epoch [01/25] | Train Loss: 0.105421 | Val Loss: 0.090859 | LR: 1.00e-04 | Time: 341.8s [NEW BEST]
+[2026-11-16 01:40:29]        CSEB Predicted Distribution (Val): Thin=57.2%, Mod=21.7%, Thick=21.1%
+[2026-11-16 01:46:52] Epoch [02/25] | Train Loss: 0.079058 | Val Loss: 0.081380 | LR: 1.00e-04 | Time: 383.1s [NEW BEST]
+[2026-11-16 01:46:52]        CSEB Predicted Distribution (Val): Thin=54.5%, Mod=24.2%, Thick=21.3%
+[2026-11-16 01:53:26] Epoch [03/25] | Train Loss: 0.075013 | Val Loss: 0.064142 | LR: 1.00e-04 | Time: 394.0s [NEW BEST]
+[2026-11-16 01:53:26]        CSEB Predicted Distribution (Val): Thin=53.2%, Mod=23.9%, Thick=22.9%
+[2026-11-16 02:01:43] Epoch [04/25] | Train Loss: 0.065601 | Val Loss: 0.072931 | LR: 1.00e-04 | Time: 496.1s
+[2026-11-16 02:01:43]        CSEB Predicted Distribution (Val): Thin=53.6%, Mod=23.6%, Thick=22.8%
+[2026-11-16 02:09:36] Epoch [05/25] | Train Loss: 0.065908 | Val Loss: 0.083532 | LR: 1.00e-04 | Time: 473.4s
+[2026-11-16 02:09:36]        CSEB Predicted Distribution (Val): Thin=48.8%, Mod=26.1%, Thick=25.1%
+[2026-11-16 02:14:13] Epoch [06/25] | Train Loss: 0.064595 | Val Loss: 0.064042 | LR: 1.00e-04 | Time: 276.0s [NEW BEST]
+[2026-11-16 02:14:13]        CSEB Predicted Distribution (Val): Thin=42.1%, Mod=29.1%, Thick=28.8%
+[2026-11-16 02:22:34] Epoch [07/25] | Train Loss: 0.065223 | Val Loss: 0.057527 | LR: 1.00e-04 | Time: 501.4s [NEW BEST]
+[2026-11-16 02:22:34]        CSEB Predicted Distribution (Val): Thin=44.1%, Mod=21.5%, Thick=34.3%
+[2026-11-16 02:30:11] Epoch [08/25] | Train Loss: 0.056781 | Val Loss: 0.080551 | LR: 1.00e-04 | Time: 456.3s
+[2026-11-16 02:30:11]        CSEB Predicted Distribution (Val): Thin=36.1%, Mod=26.7%, Thick=37.2%
+[2026-11-16 02:38:16] Epoch [09/25] | Train Loss: 0.057754 | Val Loss: 0.082019 | LR: 1.00e-04 | Time: 485.1s
+[2026-11-16 02:38:16]        CSEB Predicted Distribution (Val): Thin=31.7%, Mod=25.1%, Thick=43.3%
+[2026-11-16 02:46:44] Epoch [10/25] | Train Loss: 0.056142 | Val Loss: 0.073252 | LR: 1.00e-04 | Time: 507.9s
+[2026-11-16 02:46:44]        CSEB Predicted Distribution (Val): Thin=42.7%, Mod=21.4%, Thick=35.9%
+[2026-11-16 02:55:00] Epoch [11/25] | Train Loss: 0.053812 | Val Loss: 0.051276 | LR: 1.00e-04 | Time: 495.4s [NEW BEST]
+[2026-11-16 02:55:00]        CSEB Predicted Distribution (Val): Thin=45.5%, Mod=18.2%, Thick=36.3%
+[2026-11-16 03:03:24] Epoch [12/25] | Train Loss: 0.055980 | Val Loss: 0.052097 | LR: 1.00e-04 | Time: 503.6s
+[2026-11-16 03:03:24]        CSEB Predicted Distribution (Val): Thin=40.0%, Mod=23.5%, Thick=36.5%
+[2026-11-16 03:12:11] Epoch [13/25] | Train Loss: 0.054355 | Val Loss: 0.063719 | LR: 1.00e-04 | Time: 526.7s
+[2026-11-16 03:12:11]        CSEB Predicted Distribution (Val): Thin=35.4%, Mod=27.1%, Thick=37.5%
+[2026-11-16 03:20:57] Epoch [14/25] | Train Loss: 0.050287 | Val Loss: 0.064687 | LR: 1.00e-04 | Time: 525.6s
+[2026-11-16 03:20:57]        CSEB Predicted Distribution (Val): Thin=37.6%, Mod=27.2%, Thick=35.2%
+[2026-11-16 03:29:38] Epoch [15/25] | Train Loss: 0.054681 | Val Loss: 0.053751 | LR: 5.00e-05 | Time: 521.0s (LR adjusted: 1.00e-04 -> 5.00e-05)
+[2026-11-16 03:29:38]        CSEB Predicted Distribution (Val): Thin=36.8%, Mod=29.1%, Thick=34.1%
+[2026-11-16 03:37:31] Epoch [16/25] | Train Loss: 0.045798 | Val Loss: 0.050855 | LR: 5.00e-05 | Time: 472.6s [NEW BEST]
+[2026-11-16 03:37:31]        CSEB Predicted Distribution (Val): Thin=38.9%, Mod=26.5%, Thick=34.6%
+[2026-11-16 03:46:23] Epoch [17/25] | Train Loss: 0.046291 | Val Loss: 0.050445 | LR: 5.00e-05 | Time: 532.3s [NEW BEST]
+[2026-11-16 03:46:23]        CSEB Predicted Distribution (Val): Thin=42.5%, Mod=22.3%, Thick=35.3%
+[2026-11-16 03:54:59] Epoch [18/25] | Train Loss: 0.044740 | Val Loss: 0.043140 | LR: 5.00e-05 | Time: 515.5s [NEW BEST]
+[2026-11-16 03:54:59]        CSEB Predicted Distribution (Val): Thin=43.9%, Mod=25.0%, Thick=31.1%
+[2026-11-16 04:03:12] Epoch [19/25] | Train Loss: 0.043717 | Val Loss: 0.045014 | LR: 5.00e-05 | Time: 492.6s
+[2026-11-16 04:03:12]        CSEB Predicted Distribution (Val): Thin=41.2%, Mod=22.5%, Thick=36.3%
+[2026-11-16 04:10:32] Epoch [20/25] | Train Loss: 0.039860 | Val Loss: 0.052771 | LR: 5.00e-05 | Time: 439.9s
+[2026-11-16 04:10:32]        CSEB Predicted Distribution (Val): Thin=35.3%, Mod=28.3%, Thick=36.4%
+[2026-11-16 04:18:02] Epoch [21/25] | Train Loss: 0.040639 | Val Loss: 0.047309 | LR: 5.00e-05 | Time: 449.6s
+[2026-11-16 04:18:02]        CSEB Predicted Distribution (Val): Thin=40.9%, Mod=23.4%, Thick=35.7%
+[2026-11-16 04:26:17] Epoch [22/25] | Train Loss: 0.037028 | Val Loss: 0.037799 | LR: 5.00e-05 | Time: 494.5s [NEW BEST]
+[2026-11-16 04:26:17]        CSEB Predicted Distribution (Val): Thin=46.8%, Mod=22.0%, Thick=31.1%
+[2026-11-16 04:33:03] Epoch [23/25] | Train Loss: 0.036825 | Val Loss: 0.039007 | LR: 5.00e-05 | Time: 405.7s
+[2026-11-16 04:33:03]        CSEB Predicted Distribution (Val): Thin=40.5%, Mod=23.7%, Thick=35.8%
+[2026-11-16 04:39:29] Epoch [24/25] | Train Loss: 0.035525 | Val Loss: 0.033073 | LR: 5.00e-05 | Time: 385.7s [NEW BEST]
+[2026-11-16 04:39:29]        CSEB Predicted Distribution (Val): Thin=42.9%, Mod=23.9%, Thick=33.2%
+[2026-11-16 04:45:54] Epoch [25/25] | Train Loss: 0.032179 | Val Loss: 0.039670 | LR: 5.00e-05 | Time: 385.3s
+[2026-11-16 04:45:54]        CSEB Predicted Distribution (Val): Thin=41.0%, Mod=25.2%, Thick=33.8%
+[2026-11-16 04:45:56] ================================================================================
+[2026-11-16 04:45:56] TRAINING COMPLETE (FULL_TRAINING)
+[2026-11-16 04:45:56] Total Duration: 11467.49s
+[2026-11-16 04:45:56] Measured Forward/Backward: 2344.8ms | Optimizer Step: 68.1ms | Val Step: 679.7ms
+[2026-11-16 04:45:56] Projected Single Epoch (Full 350/75 Dataset): 442.2s (7.37 min)
+[2026-11-16 04:45:56] Projected 25 Epochs: 184.2 min (3.07 hrs)
+[2026-11-16 04:45:56] Best Epoch: 24 | Best Validation Loss: 0.033073
+[2026-11-16 04:45:56] Best Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_controlled_best.pth
+[2026-11-16 04:45:56] Latest Checkpoint: C:\Users\mcsr8\Desktop\cloud-removal-poc\models\transformer_controlled_latest.pth
+[2026-11-16 04:45:56] ================================================================================
